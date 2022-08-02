@@ -45,11 +45,11 @@ def first(element, selector):
 def group_urls():
     url = 'https://www.splcenter.org/fighting-hate/extremist-files/groups'
     doc = get(url)
-    urls = set()
-    for a in doc.select('.field-item a'):
-        if '/fighting-hate/extremist-files/group/' in a['href']:
-            urls.add(urljoin(url, a['href']))
-    return urls
+    return {
+        urljoin(url, a['href'])
+        for a in doc.select('.field-item a')
+        if '/fighting-hate/extremist-files/group/' in a['href']
+    }
 
 def groups():
     for url in group_urls():
@@ -72,11 +72,11 @@ def groups():
 def individual_urls():
     url = 'https://www.splcenter.org/fighting-hate/extremist-files/individual'
     doc = get(url)
-    urls = set()
-    for a in doc.select('.field-item a'):
-        if '/fighting-hate/extremist-files/individual/' in a['href']:
-            urls.add(urljoin(url, a['href']))
-    return urls
+    return {
+        urljoin(url, a['href'])
+        for a in doc.select('.field-item a')
+        if '/fighting-hate/extremist-files/individual/' in a['href']
+    }
 
 
 def individuals():
@@ -106,7 +106,7 @@ def norm(name):
 
 def map_name():
     features = requests.get('https://www.splcenter.org/hate-map.geojson').json()['features']
-    seen = set([g['name'].lower() for g in json.load(open('groups.json'))])
+    seen = {g['name'].lower() for g in json.load(open('groups.json'))}
 
 
 

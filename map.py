@@ -12,7 +12,7 @@ w = csv.DictWriter(open('map.csv', 'w'), fieldnames=fieldnames)
 w.writeheader()
 
 # only add them if we haven't already seen them
-seen = set([g['name'].lower() for g in json.load(open('groups.json'))])
+seen = {g['name'].lower() for g in json.load(open('groups.json'))}
 
 for feature in features:
     name = feature['properties']['name']

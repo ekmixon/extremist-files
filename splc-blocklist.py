@@ -37,10 +37,9 @@ for row in csv_reader:
         logging.warn("found unexpected twitter handle: %s", twitter_url)
         continue
 
-    screen_name = m.group(1)
+    screen_name = m[1]
 
-    user = tw.GetUser(screen_name=screen_name)
-    if user:
+    if user := tw.GetUser(screen_name=screen_name):
         # so weird that Twitter's blocklist importer expects
         # there to not be a end of line at the end of the file
         # it's true, try it yourself if you don't believe me!
